@@ -27,28 +27,67 @@ import tensorflow as tf
 LABELS_FILENAME = 'labels.txt'
 
 
-def int64_feature(value):
+def int64_feature(values):
+    """Wrapper for inserting int64 features into Example proto.
+    """
+    #if not isinstance(value, list):
+        #value = [value]
+    return [tf.train.Feature(int64_list=tf.train.Int64List(value=values))]
+
+def int64_feature_list(values):
+  """Wrapper for inserting an int64 FeatureList into a SequenceExample proto."""
+  return tf.train.FeatureList(feature=int64_feature(values))
+  #return tf.train.FeatureList(feature=tf.train.Int64List(value=values))
+
+def int64_feature1(value):
     """Wrapper for inserting int64 features into Example proto.
     """
     if not isinstance(value, list):
         value = [value]
-    return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
+    return tf.train.Feature(int64_list=tf.train.Int64List(value=value))  
 
 
-def float_feature(value):
+def float_feature(values):
     """Wrapper for inserting float features into Example proto.
     """
-    if not isinstance(value, list):
-        value = [value]
-    return tf.train.Feature(float_list=tf.train.FloatList(value=value))
+    #if not isinstance(value, list):
+        #value = [value]
+    return [tf.train.Feature(float_list=tf.train.FloatList(value=values))]
+
+def float_feature_list(values):
+  """Wrapper for inserting an int64 FeatureList into a SequenceExample proto."""
+  return tf.train.FeatureList(feature=float_feature(values))
+   #return tf.train.FeatureList(float_list=tf.train.FloatList(value=values))
+
+def float_feature1(value):
+    """Wrapper for inserting float features into Example proto.
+    """
+    #if not isinstance(value, list):
+        #value = [value]
+    return tf.train.Feature(float_list=tf.train.FloatList(value=value))      
 
 
-def bytes_feature(value):
+def bytes_feature(values):
+    """Wrapper for inserting bytes features into Example proto.
+    """
+    #if not isinstance(value, list):
+        #value = [value]
+
+    return [tf.train.Feature(bytes_list=tf.train.BytesList(value=[values]))]
+
+def bytes_feature_list(values):
+  """Wrapper for inserting a bytes FeatureList into a SequenceExample proto,
+  e.g, sentence in list of bytes
+  """
+  return tf.train.FeatureList(feature=bytes_feature(values)) 
+  #return tf.train.Feature(bytes_list=tf.train.BytesList(value=values))  
+
+def bytes_feature1(value):
     """Wrapper for inserting bytes features into Example proto.
     """
     if not isinstance(value, list):
         value = [value]
-    return tf.train.Feature(bytes_list=tf.train.BytesList(value=value))
+    return tf.train.Feature(bytes_list=tf.train.BytesList(value=value))   
 
 
 def image_to_tfexample(image_data, image_format, height, width, class_id):
